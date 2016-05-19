@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/send_toobar"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:background="@color/colorTheme"
+        android:clipToPadding="true"
+        android:fitsSystemWindows="true"
+        android:paddingBottom="5dp">
+
+        <ImageButton
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="#00000000"
+            android:onClick="onBack"
+            android:src="@drawable/ic_keyboard_arrow_left_black_24dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="85dp"
+            android:gravity="center_horizontal"
+            android:text="选择文件"
+            android:textColor="@android:color/white"
+            android:textSize="25sp" />
+    </android.support.v7.widget.Toolbar>
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/send_rdbtn1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:button="@null"
+            android:checked="true"
+            android:textColor="@drawable/send_radiobutton_textcolor"
+            android:gravity="center"
+            android:text="文件" />
+
+        <RadioButton
+            android:id="@+id/send_rdbtn2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:button="@null"  android:textColor="@drawable/send_radiobutton_textcolor"
+            android:gravity="center"
+            android:text="图片" />
+
+        <RadioButton
+            android:id="@+id/send_rdbtn3"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:button="@null"  android:textColor="@drawable/send_radiobutton_textcolor"
+            android:gravity="center"
+            android:text="音乐" />
+
+        <RadioButton
+            android:id="@+id/send_rdbtn4"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:button="@null"  android:textColor="@drawable/send_radiobutton_textcolor"
+            android:gravity="center"
+            android:text="视频" />
+    </RadioGroup>
+
+    <ImageView
+            android:id="@+id/iv_cursor"
+            android:layout_width="fill_parent"
+            android:layout_height="3dp"
+            android:scaleType="matrix"
+            android:src="@drawable/cursor" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/send_vp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </android.support.v4.view.ViewPager>
+    </FrameLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"></View>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="50dp">
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_weight="1">
+            <Button
+                android:id="@+id/btn_selected"
+                android:layout_margin="10dp"
+                android:background="@drawable/buttonstyle"
+                android:layout_width="120dp"
+                android:layout_height="match_parent"
+                android:text="已选"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:gravity="center"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+            <Button
+                android:layout_margin="10dp"
+                android:background="@drawable/sendfrag_btnstyle"
+                android:layout_width="120dp"
+                android:layout_height="match_parent"
+                android:text="发送"
+                android:id="@+id/btn_send_file" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
