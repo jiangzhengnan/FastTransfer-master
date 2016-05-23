@@ -227,9 +227,7 @@ public class FileTransferAsyncTask extends AsyNet<Object> {
 
 
                         int receiveFinish = is.read();
-                        if (receiveFinish == SEND_COMPLETE) {
-                            AlertUtil.toastMess(context, "对方发送完成");
-                        }
+
                         //接收完成
                         os.write(RECEIVE_COMPLETE);
                         os.flush();

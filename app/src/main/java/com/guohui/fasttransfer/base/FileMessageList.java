@@ -31,7 +31,6 @@ public class FileMessageList implements Jsonable {
         }else {
             info="对方发来了"+files.size()+"个文件，是否接收？";
         }
-
     }
 
     @JsonListParam(name = "msgs",contentClassName = FileMsg.class,classType = JsonListParam.TYPE.LIST)

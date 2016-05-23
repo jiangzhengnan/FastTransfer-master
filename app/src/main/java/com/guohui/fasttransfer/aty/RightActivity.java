@@ -22,6 +22,7 @@ import com.guohui.fasttransfer.R;
 import com.guohui.fasttransfer.frag.RightAtyDeviceFrag;
 import com.guohui.fasttransfer.frag.RightAtyFileFrag;
 import com.guohui.fasttransfer.frag.RightAtyHistoryFrag;
+import com.guohui.fasttransfer.view.HorizontalScrollCursor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +30,7 @@ import java.util.List;
 /**
  * Created by nangua on 2016/4/13 0013.
  */
-public class RightActivity extends FragmentActivity{
+public class RightActivity extends FragmentActivity implements HorizontalScrollCursor.onViewPagerChanggedListner{
     //Viewpager
     private ViewPager rightvp;
     //页面切换监听
@@ -48,7 +49,7 @@ public class RightActivity extends FragmentActivity{
     private RadioButton[] radiobtns;
 
     //游标设计
-    private ImageView right_cursor;
+    private HorizontalScrollCursor right_cursor;
     private int offset = 0;// 动画图片偏移量
     private int currIndex = 0;// 当前页卡编号
     private int bmpW;// 动画图片宽度
@@ -68,9 +69,7 @@ public class RightActivity extends FragmentActivity{
 
     private void initView() {
         //游标
-        right_cursor = (ImageView) findViewById(R.id.right_cursor);
-        //初始化动画
-        InitImageView();
+        right_cursor = (HorizontalScrollCursor) findViewById(R.id.right_cursor);
         //初始化Viewpager
         rightvp = (ViewPager) findViewById(R.id.right_vp);
         radiobtns = new RadioButton[3];
@@ -111,13 +110,18 @@ public class RightActivity extends FragmentActivity{
         fragments.add(rightAtyHistoryFrag);
         rightvp.setAdapter(fPagerAdapter);
 
-        //初始化监听器
+   /*     //初始化监听器
         onPageChangeListener = new ViewPager.OnPageChangeListener() {
             Animation animation = null;
             int one = offset * 2 + bmpW;// 页卡1 -> 页卡2 偏移量
             int two = one * 2;// 页卡1 -> 页卡3 偏移量
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                  *//*  animation = new TranslateAnimation(0,positionOffset,0,0);
+                    animation.setFillAfter(true);// True:图片停在动画结束位置
+                    animation.setDuration(1);
+                    right_cursor.startAnimation(animation);*//*
+               // right_cursor.scrollTo(positionOffsetPixels/3, (int) right_cursor.getY());
             }
 
             @Override
@@ -125,7 +129,7 @@ public class RightActivity extends FragmentActivity{
                 //改变radiobutton
                 pageCheck(position);
 
-                switch (position) {
+                 switch (position) {
                     case 0:
                         if (currIndex == 1) {
                             animation = new TranslateAnimation(one, 0, 0, 0);
@@ -157,29 +161,14 @@ public class RightActivity extends FragmentActivity{
             @Override
             public void onPageScrollStateChanged(int state) {
             }
-        };
-
-
-        rightvp.setOnPageChangeListener(onPageChangeListener);
+        };*/
+        right_cursor.setspace(30);
+        right_cursor.setViewPager(rightvp);
+        right_cursor.setcallback(this);
         //注意，设置Page 即缓存页面的个数，数过小时会出现fragment重复加载的问题
         rightvp.setOffscreenPageLimit(3);
     }
 
-    /**
-     * 初始化动画
-     */
-    private void InitImageView() {
-        right_cursor = (ImageView) findViewById(R.id.right_cursor);
-        bmpW = BitmapFactory.decodeResource(getResources(), R.drawable.cursor)
-                .getWidth();// 获取图片宽度
-        DisplayMetrics dm = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(dm);
-        int screenW = dm.widthPixels;// 获取分辨率宽度
-        offset = (screenW / 3 - bmpW) / 2;// 计算偏移量
-        Matrix matrix = new Matrix();
-        matrix.postTranslate(offset, 0);
-        right_cursor.setImageMatrix(matrix);// 设置动画初始位置
-    }
 
 
     // 更换标签
@@ -191,7 +180,9 @@ public class RightActivity extends FragmentActivity{
      * 自定义按钮选择的方法
      * @param position
      */
-    private void pageCheck(int position) {
+
+    @Override
+    public void CheckPage(int position) {
         radiobtns[position].setChecked(true);
         for(int i = 0;i<3;i++) {
             if (i!=position) {

@@ -15,6 +15,7 @@ import android.widget.ArrayAdapter;
 import com.guohui.fasttransfer.aty.AcceptActivity;
 import com.guohui.fasttransfer.aty.MainActivity;
 import com.guohui.fasttransfer.utils.AlertUtil;
+import com.guohui.fasttransfer.utils.DBUtils;
 
 import java.net.InetAddress;
 import java.util.List;
@@ -54,6 +55,15 @@ public class WiFiDirectBroadcastReceiver extends BroadcastReceiver {
                 mActivity.diviceNear[i].setVisibility(View.VISIBLE);
                 i++;
 
+             //把   p2pDevice.deviceName  存到数据库
+
+                DBUtils dbUtils = new DBUtils(mActivity,"Device");
+                boolean ifchenggong = dbUtils.insertDevice(p2pDevice.deviceName);
+                if (ifchenggong) {
+                    AlertUtil.toastMess(mActivity,"插入到数据库成功");
+                } else {
+                    AlertUtil.toastMess(mActivity,"插入到数据库失败");
+                }
             }
 
             //list扩充

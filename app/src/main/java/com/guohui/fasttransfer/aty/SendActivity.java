@@ -1,41 +1,34 @@
 package com.guohui.fasttransfer.aty;
 
 import android.content.Intent;
-import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
-import android.view.animation.Animation;
-import android.view.animation.TranslateAnimation;
 import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.RadioButton;
 
+import com.guohui.fasttransfer.R;
 import com.guohui.fasttransfer.frag.SendAtyFileFrag;
 import com.guohui.fasttransfer.frag.SendAtyMusicFrag;
 import com.guohui.fasttransfer.frag.SendAtyPictureFrag;
 import com.guohui.fasttransfer.frag.SendAtyVideoFrag;
+import com.guohui.fasttransfer.view.HorizontalScrollCursor;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import com.guohui.fasttransfer.R;
-import com.guohui.fasttransfer.utils.FileUtils;
 
 
 /**
  * Created by nangua on 2016/5/12.
  */
-public class SendActivity extends FragmentActivity  {
+public class SendActivity extends FragmentActivity implements HorizontalScrollCursor.onViewPagerChanggedListner {
     //Viewpager
     ViewPager sendvp;
     //页面切换监听
@@ -63,7 +56,7 @@ public class SendActivity extends FragmentActivity  {
 
 
     //游标设计
-    ImageView cursor;
+    HorizontalScrollCursor send_cursor;
     private int offset = 0;// 动画图片偏移量
     private int currIndex = 0;// 当前页卡编号
     private int bmpW;// 动画图片宽度
@@ -97,11 +90,11 @@ public class SendActivity extends FragmentActivity  {
 
 
 
-
+    int shangcideweizhi = 0;
 
     private void initView() {
         //游标
-        cursor = (ImageView) findViewById(R.id.iv_cursor);
+        send_cursor = (HorizontalScrollCursor) findViewById(R.id.send_cursor);
         btnSendFile = (Button) findViewById(R.id.btn_send_file);
         readyToSendFiles = new ArrayList<>();
         btnSelected = (Button) findViewById(R.id.btn_selected);
@@ -118,7 +111,7 @@ public class SendActivity extends FragmentActivity  {
 
         });
         //初始化动画
-        InitImageView();
+       // InitImageView();
         //初始化Viewpager
         sendvp = (ViewPager) findViewById(R.id.send_vp);
         radiobtns = new RadioButton[4];
@@ -163,116 +156,54 @@ public class SendActivity extends FragmentActivity  {
         sendvp.setAdapter(fPagerAdapter);
 
 
-        //初始化监听器
+  /*      //初始化监听器
         onPageChangeListener = new ViewPager.OnPageChangeListener() {
-            Animation animation = null;
-            int one = offset * 2 + bmpW;// 页卡1 -> 页卡2 偏移量
-            int two = one * 2;// 页卡1 -> 页卡3 偏移量
-            int three = one*3;//页卡1 -> 页卡4 偏移量
+
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-           /*     animation = new TranslateAnimation(0, 100, 0, 0);
-                animation.setFillAfter(true);// True:图片停在动画结束位置
-                animation.setDuration(100);
-                cursor.startAnimation(animation);*/
             }
 
             @Override
             public void onPageSelected(int position) {
-                //改变radiobutton
-                pageCheck(position);
-
-
-
-                switch (position) {
-                    case 0:
-                        if (currIndex == 1) {
-                            animation = new TranslateAnimation(one, 0, 0, 0);
-                        } else if (currIndex == 2) {
-                            animation = new TranslateAnimation(two, 0, 0, 0);
-                        } else if (currIndex == 3) {
-                            animation = new TranslateAnimation(three, 0, 0, 0);
-                        }
-                        break;
-                    case 1:
-                        if (currIndex == 0) {
-                            animation = new TranslateAnimation(offset, one, 0, 0);
-                        } else if (currIndex == 2) {
-                            animation = new TranslateAnimation(two, one, 0, 0);
-                        } else if (currIndex == 3) {
-                            animation = new TranslateAnimation(three, one, 0, 0);
-                        }
-                        break;
-                    case 2:
-                        if (currIndex == 0) {
-                            animation = new TranslateAnimation(offset, two, 0, 0);
-                        } else if (currIndex == 1) {
-                            animation = new TranslateAnimation(one, two, 0, 0);
-                        } else if (currIndex == 3) {
-                            animation = new TranslateAnimation(three, two, 0, 0);
-                        }
-                        break;
-                    case 3:
-                        if (currIndex == 0) {
-                            animation = new TranslateAnimation(offset, three, 0, 0);
-                        } else if (currIndex == 1) {
-                            animation = new TranslateAnimation(one, three, 0, 0);
-                        } else if (currIndex == 2) {
-                            animation = new TranslateAnimation(two, three, 0, 0);
-                        }
-                        break;
-                }
-                currIndex = position;
-                animation.setFillAfter(true);// True:图片停在动画结束位置
-                animation.setDuration(230);
-                cursor.startAnimation(animation);
+                 //改变radiobutton
+                 pageCheck(position);
             }
 
             @Override
             public void onPageScrollStateChanged(int state) {
             }
-        };
+        };*/
 
-
-        sendvp.setOnPageChangeListener(onPageChangeListener);
+        //sendvp.setOnPageChangeListener(onPageChangeListener);
         //注意，设置Page 即缓存页面的个数，数过小时会出现fragment重复加载的问题
         sendvp.setOffscreenPageLimit(4);
+        send_cursor.setspace(30);
+        send_cursor.setViewPager(sendvp);
+        send_cursor.setcallback(this);
     }
 
     /**
      * 初始化动画
      */
-    private void InitImageView() {
+/*    private void InitImageView() {
         cursor = (ImageView) findViewById(R.id.iv_cursor);
         bmpW = BitmapFactory.decodeResource(getResources(), R.drawable.cursor)
                 .getWidth();// 获取图片宽度
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
-        int screenW = dm.widthPixels;// 获取分辨率宽度
+          screenW = dm.widthPixels;// 获取分辨率宽度
         offset = (screenW / 4 - bmpW) / 2;// 计算偏移量
         Matrix matrix = new Matrix();
         matrix.postTranslate(offset, 0);
         cursor.setImageMatrix(matrix);// 设置动画初始位置
-    }
+    }*/
 
-
+    int screenW;
     // 更换标签
     private void changeTagView(int change) {
         sendvp.setCurrentItem(change, false);
     }
 
-    /**
-     * 自定义按钮选择的方法
-     * @param position
-     */
-    private void pageCheck(int position) {
-        radiobtns[position].setChecked(true);
-        for(int i = 0;i<4;i++) {
-            if (i!=position) {
-                radiobtns[i].setChecked(false);
-            }
-        }
-    }
 
     @Override
     public void onBackPressed() {
@@ -327,4 +258,13 @@ public class SendActivity extends FragmentActivity  {
          super.onBackPressed();
      }
 
+    @Override
+    public void CheckPage(int position) {
+        radiobtns[position].setChecked(true);
+        for(int i = 0;i<4;i++) {
+            if (i!=position) {
+                radiobtns[i].setChecked(false);
+            }
+        }
+    }
 }

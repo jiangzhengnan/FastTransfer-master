@@ -66,12 +66,11 @@
 
     </RadioGroup>
 
-    <ImageView
+    <com.guohui.fasttransfer.view.HorizontalScrollCursor
         android:id="@+id/right_cursor"
         android:layout_width="fill_parent"
         android:layout_height="3dp"
-        android:scaleType="matrix"
-        android:src="@drawable/cursor" />
+        android:background="@android:color/darker_gray"/>
 
     <FrameLayout
         android:layout_width="match_parent"

@@ -28,6 +28,7 @@ import com.guohui.fasttransfer.SocketServerService;
 import com.guohui.fasttransfer.WiFiDirectBroadcastReceiver;
 import com.guohui.fasttransfer.asynet.AsyNet;
 import com.guohui.fasttransfer.base.FileMessageList;
+import com.guohui.fasttransfer.base.FileMsg;
 import com.guohui.fasttransfer.socket.FileTransferAsyncTask;
 import com.guohui.fasttransfer.utils.AlertUtil;
 
@@ -93,7 +94,7 @@ public class AcceptActivity extends Activity implements AsyNet.OnNetStateChanged
         initView();
         dialog = new ProgressDialog(this);
 
-
+        mManager.removeGroup(mChannel,null);
         //搜索周边设备
         mManager.discoverPeers(mChannel, new WifiP2pManager.ActionListener() {
             @Override
@@ -135,6 +136,8 @@ public class AcceptActivity extends Activity implements AsyNet.OnNetStateChanged
         }.start();
     }
 
+    static List<FileMsg> receiveFileMsgs;
+    static List<FileMsg> acceptFileMsgs;
     /**
      * 连接上了服务器
      *
@@ -151,10 +154,13 @@ public class AcceptActivity extends Activity implements AsyNet.OnNetStateChanged
             }
             transferAsyncTask.setSendFileList(files);
         }
-        transferAsyncTask.setOnReceivedListener(new FileTransferAsyncTask.OnReceivedListener() {
+        transferAsyncTask.setOnReceivedListener(
+                new FileTransferAsyncTask.OnReceivedListener() {
 
             @Override
             public boolean onReceivedFileMessage(FileMessageList msgs) {
+                receiveFileMsgs = msgs.getMsgs();
+
 
                 Message message = new Message();
                 message.what = 1;
@@ -307,6 +313,37 @@ public class AcceptActivity extends Activity implements AsyNet.OnNetStateChanged
                     dialog.show();
                     break;
                 case PROGRESS_DISMISS:
+                    if (!isSender) {
+                        //这里把receiveFileMsgs存到数据库里去
+
+
+
+
+
+
+
+
+
+
+                    } else {
+                        for (int i = 0;i<fileList.size();i++){
+                            File tempfile = new File((String) fileList.get(i));
+                            String filename = tempfile.getName();
+                            //这里把文件名存到数据库里去
+
+
+
+
+
+
+
+
+
+
+
+
+                        }
+                    }
                     dialog.dismiss();
                     break;
                 case PROGRESS_ON_PROGRESS:

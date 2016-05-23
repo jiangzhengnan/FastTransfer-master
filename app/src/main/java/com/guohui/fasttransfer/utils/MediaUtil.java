@@ -32,8 +32,11 @@ public class MediaUtil {
             File song = null;
 
             do {
-                song = new File(cursor.getString(0));
-                songs.add(song);
+
+                if (cursor.getString(0)!=null) {
+                    song = new File(cursor.getString(0));
+                    songs.add(song);
+                }
             } while (cursor.moveToNext());
 
             cursor.close();
@@ -80,7 +83,7 @@ public class MediaUtil {
         Cursor cursor = context.getContentResolver().query(
                 MediaStore.Video.Media.EXTERNAL_CONTENT_URI,
                 new String[] {
-                        MediaStore.Video.Media.DISPLAY_NAME,
+                        MediaStore.Images.Media.DISPLAY_NAME,
                 },
                 null,
                 null,

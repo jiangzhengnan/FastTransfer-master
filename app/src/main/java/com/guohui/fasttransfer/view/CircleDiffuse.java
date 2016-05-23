@@ -69,6 +69,7 @@ public class CircleDiffuse extends ImageView {
         banjing2 ++;
         banjing3 ++;
         banjing4 ++;
+        canvas.save();
         canvas.restore();
         postInvalidateDelayed(13);
     }
