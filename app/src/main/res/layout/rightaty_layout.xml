@@ -70,7 +70,7 @@
         android:id="@+id/right_cursor"
         android:layout_width="fill_parent"
         android:layout_height="3dp"
-        android:background="@android:color/darker_gray"/>
+         />
 
     <FrameLayout
         android:layout_width="match_parent"

@@ -21,7 +21,7 @@ public class MediaUtil {
         Cursor cursor = context.getContentResolver().query(
                 MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
                 new String[] {
-                        MediaStore.Audio.Media.DISPLAY_NAME,
+                        MediaStore.Audio.Media.DATA,
                        },
                 null,
                 null,
@@ -54,7 +54,7 @@ public class MediaUtil {
         Cursor cursor = context.getContentResolver().query(
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                 new String[] {
-                        MediaStore.Images.Media.DISPLAY_NAME,
+                        MediaStore.Images.Media.DATA,
                 },
                 null,
                 null,
@@ -83,7 +83,7 @@ public class MediaUtil {
         Cursor cursor = context.getContentResolver().query(
                 MediaStore.Video.Media.EXTERNAL_CONTENT_URI,
                 new String[] {
-                        MediaStore.Images.Media.DISPLAY_NAME,
+                        MediaStore.Images.Media.DATA,
                 },
                 null,
                 null,

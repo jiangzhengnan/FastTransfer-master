@@ -78,7 +78,6 @@
             android:id="@+id/send_cursor"
             android:layout_width="fill_parent"
             android:layout_height="3dp"
-        android:background="@android:color/darker_gray"
         />
 
     <FrameLayout
@@ -127,6 +126,7 @@
                 android:layout_width="120dp"
                 android:layout_height="match_parent"
                 android:text="发送"
+                android:textColor="@android:color/white"
                 android:id="@+id/btn_send_file" />
         </LinearLayout>
     </LinearLayout>

@@ -16,7 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.guohui.fasttransfer.R;
-import com.guohui.fasttransfer.adapter.SendAtyFileFragRvAdapter;
+import com.guohui.fasttransfer.adapter.SendAtyFileFragAdapter;
 import com.guohui.fasttransfer.aty.SendActivity;
 
 import java.io.File;
@@ -33,7 +33,7 @@ public class SendAtyFileFrag extends Fragment {
     //文件集合
     public ArrayList<File> files;
     //文件适配器
-    public SendAtyFileFragRvAdapter sendAtyFileFragRvAdapter;
+    public SendAtyFileFragAdapter sendAtyFileFragRvAdapter;
     //当前路径
     public String currnetPath;
 
@@ -123,11 +123,7 @@ public class SendAtyFileFrag extends Fragment {
                     tvPath.setText(currnetPath);
                     lastPostion.push(filelv.getFirstVisiblePosition());
                 } else {
-                    //如果是文件,使用意图过滤器启动相应的程序
                     try {
-                      /*  Intent intent = new Intent(MainActivity.this, HexActivity.class);
-                        intent.putExtra("path", file.getAbsolutePath());
-                        startActivity(intent);*/
                         if (selectedFileMap.containsKey(position)) {
                             if (selectedFileMap.get(position)) {
                                 SendActivity.instance.removeFromFiles(file.getAbsolutePath());
@@ -151,7 +147,7 @@ public class SendAtyFileFrag extends Fragment {
         });
     }
 
-    HashMap<Integer, Boolean> selectedFileMap = new HashMap<>();
+  private   HashMap<Integer, Boolean> selectedFileMap = new HashMap<>();
 
 
     /**
@@ -167,7 +163,7 @@ public class SendAtyFileFrag extends Fragment {
      * 初始化adapter
      */
     private void initAdapter() {
-        sendAtyFileFragRvAdapter = new SendAtyFileFragRvAdapter(getContext(), files);
+        sendAtyFileFragRvAdapter = new SendAtyFileFragAdapter(getContext(), files);
     }
 
     /**
