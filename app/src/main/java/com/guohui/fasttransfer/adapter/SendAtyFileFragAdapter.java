@@ -126,9 +126,6 @@ public class SendAtyFileFragAdapter extends BaseAdapter {
             } else {
                 holder.ivFileImage.setImageBitmap(getVideoThumbnail(file.getPath(), 60, 60,MediaStore.Images.Thumbnails.MINI_KIND));
             }//
-            if (MediaType == 0){
-
-            }
             //设置文件的大小//
             holder.tvFileSize.setText(FileUtils.generateSize(file));
         } else {
