@@ -1,12 +1,14 @@
 package com.guohui.fasttransfer.utils;
 
+import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
 import android.provider.MediaStore;
 
 import java.io.File;
 import java.util.ArrayList;
-
+import java.util.HashMap;
+import android.provider.MediaStore.Images.Thumbnails;
 /**
  * Created by nangua on 2016/5/19.
  */
@@ -18,7 +20,7 @@ public class MediaUtil {
      */
     public static ArrayList<File> getAllSongs(Context context) {
         ArrayList<File> songs = null;
-        Cursor cursor = context.getContentResolver().query(
+          Cursor cursor = context.getContentResolver().query(
                 MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
                 new String[] {
                         MediaStore.Audio.Media.DATA,
@@ -45,33 +47,55 @@ public class MediaUtil {
     }
 
     /**
-     * 得到本地所有的图片文件
+     * 得到本地图片文件
      * @param context
      * @return
      */
-    public static ArrayList<File> getAllPictures(Context context) {
-        ArrayList<File> pictures = null;
-        Cursor cursor = context.getContentResolver().query(
-                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                new String[] {
-                        MediaStore.Images.Media.DATA,
+    public static ArrayList<HashMap<String,String>> getAllPictures(Context context) {
+        ArrayList<HashMap<String,String>> picturemaps = new ArrayList<>();
+        HashMap<String,String> picturemap;
+        ContentResolver cr = context.getContentResolver();
+        //先得到缩略图的URL和对应的图片id
+        Cursor cursor = cr.query(
+                Thumbnails.EXTERNAL_CONTENT_URI,
+                new String[]{
+                        Thumbnails.IMAGE_ID,
+                        Thumbnails.DATA
                 },
                 null,
                 null,
                 null);
-        pictures = new ArrayList<File>();
         if (cursor.moveToFirst()) {
-            File picture = null;
             do {
-                picture = new File(cursor.getString(0));
-                pictures.add(picture);
+                picturemap = new HashMap<>();
+                picturemap.put("image_id_path",cursor.getInt(0)+"");
+                picturemap.put("thumbnail_path",cursor.getString(1));
+                picturemaps.add(picturemap);
             } while (cursor.moveToNext());
-
             cursor.close();
         }
-        return pictures;
+        //再得到正常图片的path
+        for (int i = 0;i<picturemaps.size();i++) {
+            picturemap = picturemaps.get(i);
+            String media_id = picturemap.get("image_id_path");
+            cursor = cr.query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                    new String[]{
+                            MediaStore.Images.Media.DATA
+                    },
+                    MediaStore.Audio.Media._ID+"="+media_id,
+                    null,
+                    null
+            );
+            if (cursor.moveToFirst()) {
+                do {
+                    picturemap.put("image_id",cursor.getString(0));
+                    picturemaps.set(i,picturemap);
+                } while (cursor.moveToNext());
+                cursor.close();
+            }
+        }
+        return picturemaps;
     }
-
 
     /**
      * 得到本地所有的视频文件

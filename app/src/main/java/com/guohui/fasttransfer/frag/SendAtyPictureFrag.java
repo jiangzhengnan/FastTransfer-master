@@ -24,6 +24,8 @@ import java.util.HashMap;
  */
 public class SendAtyPictureFrag extends Fragment {
     private ArrayList<File> allpicture;
+
+    ArrayList<HashMap<String,String>> picturemaps;
     private ListView sendfrag_picture_lv;
     private TextView showpicture;
     //文件适配器
@@ -41,7 +43,20 @@ public class SendAtyPictureFrag extends Fragment {
 
     private void initView(View v) {
         showpicture = (TextView) v.findViewById(R.id.showpicture);
-        allpicture = MediaUtil.getAllPictures(getContext());
+        allpicture = new ArrayList<>();
+        /**
+         * 得到存储在map里的图片地址和缩略图地址
+         * image_id_path   图片地址
+         * thumbnail_path   缩略图地址
+         */
+        picturemaps = MediaUtil.getAllPictures(getContext());
+        //给allpicture赋值
+        for (int i = 0;i<picturemaps.size();i++) {
+            File f = new File(picturemaps.get(i).get("thumbnail_path"));
+            allpicture.add(f);
+        }
+
+
         if (allpicture.size()!=0) {
             showpicture.setVisibility(View.GONE);
         }
@@ -51,8 +66,8 @@ public class SendAtyPictureFrag extends Fragment {
         sendfrag_picture_lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //当前选中的文件
-                File f = allpicture.get(position);
+                //当前选中的文件,这里返回的是图片真实地址
+                File f = new File(picturemaps.get(position).get("image_id_path"));
                 if (selectedFileMap.containsKey(position)) {
                     if (selectedFileMap.get(position)) {
                         SendActivity.instance.removeFromFiles(f.getAbsolutePath());

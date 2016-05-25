@@ -122,7 +122,8 @@ public class SendAtyFileFragAdapter extends BaseAdapter {
         if (MediaType == 2||MediaType==0) {
             //如果是图片
             if (MediaType == 0) {
-                holder.ivFileImage.setImageBitmap(getImageThumbnail(file.getPath(),60,60));
+
+                holder.ivFileImage.setImageBitmap(BitmapFactory.decodeFile(file.getPath()));
             } else {
                 holder.ivFileImage.setImageBitmap(getVideoThumbnail(file.getPath(), 60, 60,MediaStore.Images.Thumbnails.MINI_KIND));
             }//
@@ -153,7 +154,7 @@ public class SendAtyFileFragAdapter extends BaseAdapter {
 
     }
 
-    /**
+/*    *//**
      * 根据指定的图像路径和大小来获取缩略图
      * 此方法有两点好处：
      *     1. 使用较小的内存空间，第一次获取的bitmap实际上为null，只是为了读取宽度和高度，
@@ -170,7 +171,6 @@ public class SendAtyFileFragAdapter extends BaseAdapter {
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
         // 获取这个图片的宽和高，注意此处的bitmap为null
-        bitmap = BitmapFactory.decodeFile(imagePath, options);
         options.inJustDecodeBounds = false; // 设为 false
         // 计算缩放比
         int h = options.outHeight;
@@ -211,8 +211,6 @@ public class SendAtyFileFragAdapter extends BaseAdapter {
         Bitmap bitmap = null;
         // 获取视频的缩略图
         bitmap = ThumbnailUtils.createVideoThumbnail(videoPath, kind);
-        System.out.println("w"+bitmap.getWidth());
-        System.out.println("h"+bitmap.getHeight());
         bitmap = ThumbnailUtils.extractThumbnail(bitmap, width, height,
                 ThumbnailUtils.OPTIONS_RECYCLE_INPUT);
         return bitmap;
