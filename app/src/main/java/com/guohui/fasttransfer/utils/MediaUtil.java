@@ -9,6 +9,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import android.provider.MediaStore.Images.Thumbnails;
+import android.util.Log;
+
 /**
  * Created by nangua on 2016/5/19.
  */
@@ -94,8 +96,9 @@ public class MediaUtil {
                 cursor.close();
             }
         }
+        //图片总数为350
+        //缩略图库总数为281
         return picturemaps;
-        //
     }
 
     /**
